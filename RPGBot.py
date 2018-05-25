@@ -165,7 +165,7 @@ class Bot(commands.AutoShardedBot):
                         "character": 2,
                         "inventory": 1,
                         "economy": 1,
-                        "pokemon": 2,
+                        "shadows": 2,
                         "guild": 2,
                         "team": 1,
                     }

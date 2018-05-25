@@ -178,7 +178,7 @@ class Characters(object):
 
         await self.bot.di.add_character(ctx.guild, Character(**character))
         await ctx.send(
-            await _(ctx, "Character created! rp!team addmember to add Pokemon (optional) to your character's team!"))
+            await _(ctx, "Character created! rp!team addmember to add Shadows (optional) to your character's team!"))
 
     @checks.no_pm()
     @character.command(aliases=["remove", "supprimer"])
@@ -203,7 +203,7 @@ class Characters(object):
     @character.command()
     async def edit(self, ctx, character, attribute, *, value):
         """Edit a character
-        Usage: rp!character edit John description John likes bananas!
+        Usage: rp!character edit John description John smokes meth!
         Valid values for the [item] (second argument):
             name: the character's name
             description: the description of the character

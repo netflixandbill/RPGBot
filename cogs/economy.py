@@ -49,7 +49,7 @@ class Economy(object):
         bal = await self.bot.di.get_balance(member)
 
         await ctx.send(
-            (await _(ctx, "{} has {} dollars")).format(member.display_name, int(bal) if int(bal) == bal else bal)
+            (await _(ctx, "{} has {} bitcoins")).format(member.display_name, int(bal) if int(bal) == bal else bal)
         )
 
     @checks.no_pm()
@@ -68,34 +68,34 @@ class Economy(object):
     @checks.mod_or_permissions()
     @commands.command()
     async def givemoney(self, ctx, amount: NumberConverter, *members: MemberConverter):
-        """Give the member's money (Moderators)"""
+        """Give the member's Bitcoins (Moderators)"""
         members = chain(members)
 
         for member in members:
             await self.bot.di.add_eco(member, amount)
 
-        await ctx.send(await _(ctx, "Money given"))
+        await ctx.send(await _(ctx, "Bitcoin given"))
 
     @checks.no_pm()
     @checks.mod_or_permissions()
     @commands.command()
     async def takemoney(self, ctx, amount: NumberConverter, *members: MemberConverter):
-        """Take the member's money (Moderators)"""
+        """Take the member's Bitcoins (Moderators)"""
         members = chain(members)
 
         for member in members:
             await self.bot.di.add_eco(member, -amount)
 
-        await ctx.send(await _(ctx, "Money taken"))
+        await ctx.send(await _(ctx, "Bitcoin taken"))
 
     @checks.no_pm()
     @commands.command()
     async def pay(self, ctx, amount: NumberConverter, member: discord.Member):
-        """Pay another user money"""
+        """Pay another user Bitcoin"""
         amount = abs(amount)
         await self.bot.di.add_eco(ctx.author, -amount)
         await self.bot.di.add_eco(member, amount)
-        await ctx.send((await _(ctx, "Successfully paid {} dollars to {}")).format(amount, member))
+        await ctx.send((await _(ctx, "Successfully paid {} btc to {}")).format(amount, member))
 
     @checks.no_pm()
     @commands.group(aliases=["m", "pm"], invoke_without_command=True)
@@ -187,7 +187,7 @@ class Economy(object):
                 else:
                     i -= 1
                     users = get(ctx.guild.members, id=[x["user"] for x in chunks[i]])
-                    fin = [[x['id'], f"{x['cost']} dollars", f"x{x['amount']}", x['item'], str(y)] for x, y in
+                    fin = [[x['id'], f"{x['cost']} bitcoins", f"x{x['amount']}", x['item'], str(y)] for x, y in
                            zip(chunks[i], users)]
                     fin.insert(0, [await _(ctx, "ID"),
                                    await _(ctx, "COST"),
@@ -205,7 +205,7 @@ class Economy(object):
                     embed.clear_fields()
                     i += 1
                     users = get(ctx.guild.members, id=[x["user"] for x in chunks[i]])
-                    fin = [[x['id'], f"{x['cost']} dollars", f"x{x['amount']}", x['item'], str(y)] for x, y in
+                    fin = [[x['id'], f"{x['cost']} bitcoins", f"x{x['amount']}", x['item'], str(y)] for x, y in
                            zip(chunks[i], users)]
                     fin.insert(0, [await _(ctx, "ID"),
                                    await _(ctx, "COST"),
@@ -269,7 +269,7 @@ class Economy(object):
         await self.bot.di.update_guild_market(ctx.guild, market)
         await ctx.send(await _(ctx, "Items successfully bought"))
         await owner.send((await _(ctx,
-                                  "{} bought {} {} from you for {} dollars with ID {} on server {}")).format(
+                                  "{} bought {} {} from you for {} btc with ID {} on server {}")).format(
             ctx.author, item["item"], item["amount"], item['cost'], id, ctx.guild.name))
 
     @checks.no_pm()
@@ -321,9 +321,9 @@ class Economy(object):
 
             users = get(ctx.guild.members, id=[x['user'] for x in chunks[i]])
 
-        # items = [f"{x['id']}\t| {x['cost']} dollars\t| x{x['amount']}\t| {x['item']}\t| {y.mention}" for x, y in zip(chunks[i], users)]
+        # items = [f"{x['id']}\t| {x['cost']} bitcoin\t| x{x['amount']}\t| {x['item']}\t| {y.mention}" for x, y in zip(chunks[i], users)]
         # items.insert(0, "ID\t\t| COST\t\t| NUMBER\t\t| ITEM\t\t| SELLER")
-        fin = [[x['id'], f"{x['cost']} dollars", f"x{x['amount']}", x['item'], str(y)] for x, y in
+        fin = [[x['id'], f"{x['cost']} bitcoin", f"x{x['amount']}", x['item'], str(y)] for x, y in
                zip(chunks[i], users)]
         fin.insert(0, [await _(ctx, "ID"),
                        await _(ctx, "COST"),
@@ -362,7 +362,7 @@ class Economy(object):
                 else:
                     i -= 1
                     users = get(ctx.guild.members, id=[x["user"] for x in chunks[i]])
-                    fin = [[x['id'], f"{x['cost']} dollars", f"x{x['amount']}", x['item'], str(y)] for x, y in
+                    fin = [[x['id'], f"{x['cost']} bitcoin", f"x{x['amount']}", x['item'], str(y)] for x, y in
                            zip(chunks[i], users)]
                     fin.insert(0, [await _(ctx, "ID"),
                                    await _(ctx, "COST"),
@@ -380,7 +380,7 @@ class Economy(object):
                     embed.clear_fields()
                     i += 1
                     users = get(ctx.guild.members, id=[x["user"] for x in chunks[i]])
-                    fin = [[x['id'], f"{x['cost']} dollars", f"x{x['amount']}", x['item'], str(y)] for x, y in
+                    fin = [[x['id'], f"{x['cost']} bitcoin", f"x{x['amount']}", x['item'], str(y)] for x, y in
                            zip(chunks[i], users)]
                     fin.insert(0, [await _(ctx, "ID"),
                                    await _(ctx, "COST"),
@@ -430,7 +430,7 @@ class Economy(object):
 
             for lotto, value in self.bot.lotteries[ctx.guild.id].items():
                 embed.add_field(name=lotto,
-                                value=(await _(ctx, "Jackpot: {} dollars\n{} players entered")).format(value["jackpot"],
+                                value=(await _(ctx, "Jackpot: {} bitcoins\n{} players entered")).format(value["jackpot"],
                                                                                                        len(value[
                                                                                                                "players"])))
             embed.set_footer(text=str(ctx.message.created_at))
@@ -443,7 +443,7 @@ class Economy(object):
     @checks.mod_or_permissions()
     @lotto.command(aliases=["create"])
     async def new(self, ctx, name: str, jackpot: NumberConverter, time: NumberConverter):
-        """Create a new lotto, with jacpot payout lasting time in seconds"""
+        """Create a new lotto, with jackpot payout lasting time in seconds"""
         if ctx.guild.id not in self.bot.lotteries:
             self.bot.lotteries[ctx.guild.id] = dict()
         if name in self.bot.lotteries[ctx.guild.id]:
@@ -515,8 +515,8 @@ class Economy(object):
     @shop.command(aliases=["add"])
     @checks.mod_or_permissions()
     async def additem(self, ctx, *, name: str):
-        """Add an item to the server shop, to make an item unsaleable or unbuyable set their respective values to 0
-        pb!additem Pokeball
+        """Add an item to the server shop, to make an item unsellable or unbuyable set their respective values to 0
+        pb!additem Baggies
         -> 0
         -> 10
         Can be sold for 10 and cannot be bought. Must be an existing item! Requires Bot Moderator or Admin"""
@@ -600,11 +600,11 @@ class Economy(object):
                 await ctx.send(await _(ctx, "This item cannot be bought!"))
                 return
             if iobj["level"] > ulvl:
-                await ctx.send(await _(ctx, "You aren't high enough level for this item!"))
+                await ctx.send(await _(ctx, "You aren't high enough for this item!"))
                 return
             await self.bot.di.add_eco(ctx.author, -iobj["buy"] * amount)
         except ValueError:
-            await ctx.send(await _(ctx, "You can't afford this many!"))
+            await ctx.send(await _(ctx, "You can't afford this many! You are broke as shit."))
             return
 
         await self.bot.di.give_items(ctx.author, (item, amount))
@@ -647,12 +647,12 @@ class Economy(object):
 
         self.bids.append(ctx.channel.id)
         await ctx.send((await _(ctx,
-                                "{} Has started a bid for x{} {} starting at {} dollars\nBid runs for 60 seconds `rp!bid` to place a bid!")).format(
+                                "{} Has started a bid for x{} {} starting at {} bitcoins\nBid runs for 90 seconds `rp!bid` to place a bid!")).format(
             ctx.author, amount, item, startbid))
         cb = Counter()
 
         try:
-            with timeout(60, loop=self.bot.loop):
+            with timeout(90, loop=self.bot.loop):
                 while True:
                     resp = await self.bot.wait_for("message", check=lambda x: x.content.startswith(
                         "rp!bid") and x.channel == ctx.channel)
@@ -678,7 +678,7 @@ class Economy(object):
             winner, wamount = cb.most_common(x + 1)[x]
             wb = await self.bot.di.get_balance(winner)
             if wb >= wamount:
-                await ctx.send((await _(ctx, "{} won the bid for {} dollars!")).format(winner, amount))
+                await ctx.send((await _(ctx, "{} won the bid for {} bitcoins!")).format(winner, amount))
                 await self.bot.di.add_eco(winner, -wamount)
                 await self.bot.di.add_eco(ctx.author, wamount)
                 await self.bot.di.give_items(winner, (item, amount))
